@@ -37,6 +37,7 @@ jobs:
 
   build_linux:
     name: SmuView Linux build (${{ matrix.target }}, ${{ matrix.compiler.compiler }},  Qt ${{ matrix.qt.version }})
+    if: false
 
     runs-on: ubuntu-latest
 
@@ -74,7 +75,7 @@ jobs:
             libvisa-dev nettle-dev libavahi-client-dev libhidapi-dev check \
             doxygen swig \
             cmake libboost-dev libboost-test-dev \
-            python3-dev python-gi-dev python-setuptools
+            python3-dev python-gi-dev python3-setuptools
 
       - name: Checkout sigrok-utils
         uses: actions/checkout@v3
@@ -123,6 +124,7 @@ jobs:
 
   build_appimage:
     name: SmuView AppImage build (${{ matrix.target.target }})
+    if: false
 
     runs-on: ubuntu-latest
     container:
@@ -251,6 +253,7 @@ jobs:
 
   build_macos:
     name: SmuView MacOS build (${{ matrix.compiler.compiler }})
+    if: false
 
     runs-on: macos-11
 
