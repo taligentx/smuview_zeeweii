@@ -173,7 +173,7 @@ jobs:
           ../appimagecraft-${{ matrix.target.target }}.AppImage build -d build/
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SmuView ${{ matrix.target.target }} AppImage
           path: smuview/SmuView*.AppImage*
@@ -243,7 +243,7 @@ jobs:
           makensis ${{ matrix.target.nsis_param }} smuview/build/contrib/smuview_cross.nsi
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SmuView NSIS ${{ matrix.target.target }} installer
           path: smuview/build/contrib/SmuView*installer.exe
@@ -318,7 +318,7 @@ jobs:
       - name: Upload artifact
         # Only upload artifact from the LLVM build!
         if: startsWith(matrix.compiler.compiler, 'LLVM')
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SmuView DMG
           path: sigrok-util/cross-compile/github-actions/SmuView*.dmg
@@ -345,7 +345,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libfuse2
       - name: Download artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
       - name: Inspect directory after downloading artifacts
         run: ls -alFR
       - name: Upload artifacts and create (continuous) release
