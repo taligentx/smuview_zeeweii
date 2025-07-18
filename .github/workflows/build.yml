@@ -250,6 +250,12 @@ jobs:
           name: SmuView NSIS ${{ matrix.target.target }} installer
           path: smuview/build/contrib/SmuView*installer.exe
 
+      - name: Upload debug artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SmuView ${{ matrix.target.target }} Executable
+          path: sr/bin/smuview.exe
+
 
   build_macos:
     name: SmuView MacOS build (${{ matrix.compiler.compiler }})
