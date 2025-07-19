@@ -124,7 +124,6 @@ jobs:
 
   build_appimage:
     name: SmuView AppImage build (${{ matrix.target.target }})
-    if: false
 
     runs-on: ubuntu-latest
     container:
@@ -133,12 +132,12 @@ jobs:
     strategy:
       matrix:
         target:
-          - target: "i386"
-            container: "x86_64-i386"
-            cc: "gcc -m32"
-            cxx: "g++ -m32"
-            ld: "ld -melf_i386"
-            ldflags: "-m32"
+          # - target: "i386"
+          #   container: "x86_64-i386"
+          #   cc: "gcc -m32"
+          #   cxx: "g++ -m32"
+          #   ld: "ld -melf_i386"
+          #   ldflags: "-m32"
           - target: "x86_64"
             container: "x86_64"
             cc: "gcc"
@@ -183,6 +182,7 @@ jobs:
 
   build_mxe:
     name: SmuView MXE build (${{ matrix.target.target }})
+    if: false
 
     runs-on: ubuntu-latest
     container:
