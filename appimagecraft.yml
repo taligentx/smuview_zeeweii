@@ -12,6 +12,8 @@ build:
       - ENABLE_TESTS=n
       - CMAKE_EXPORT_COMPILE_COMMANDS=y
       - PYBIND11_FINDPYTHON=ON
+    raw_extra_variables:
+      - FORCE_PYBIND11_29=$FORCE_PYBIND11_29
     raw_environment:
       # We have to pre-build some dependencies, and also want to ship our own custom Python environment
       # the CMake build system has been instructed to load the dependencies via pkg-config
@@ -27,6 +29,7 @@ scripts:
   pre_build:
     - pushd "$BUILD_DIR"
     - |2
+      echo "FORCE_PYBIND11_29: ${FORCE_PYBIND11_29}"
       # We need the Python environment before the build already, therefore we have to run the conda
       # plugin manually before the build
       #wget https://github.com/linuxdeploy/linuxdeploy-plugin-conda/raw/master/linuxdeploy-plugin-conda.sh

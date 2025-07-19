@@ -36,6 +36,7 @@ option(DISABLE_WERROR "Build without -Werror" FALSE)
 option(ENABLE_SIGNALS "Build with UNIX signals" TRUE)
 option(ENABLE_TESTS "Enable unit tests" TRUE)
 option(STATIC_PKGDEPS_LIBS "Statically link to (pkg-config) libraries" FALSE)
+option(FORCE_PYBIND11_29 "Force the use of pybind11 2.9.2, f.e. if Python <2.8 has to be used" FALSE)
 
 # Let AUTOMOC and AUTOUIC process GENERATED files.
 if(POLICY CMP0071)
@@ -76,6 +77,7 @@ message(STATUS "DISABLE_WERROR: ${DISABLE_WERROR}")
 message(STATUS "ENABLE_SIGNALS: ${ENABLE_SIGNALS}")
 message(STATUS "ENABLE_TESTS: ${ENABLE_TESTS}")
 message(STATUS "STATIC_PKGDEPS_LIBS: ${STATIC_PKGDEPS_LIBS}")
+message(STATUS "FORCE_PYBIND11_29: ${FORCE_PYBIND11_29}")
 
 #===============================================================================
 #= Dependencies
@@ -163,10 +165,10 @@ if(MINGW)
 endif()
 
 # SmuView has its own copy of pybind11
-if(MINGW)
-	# Use pybind11 2.9.2 with the emum_docstring patch for the MXE build. 2.9.2
-	# is the last pybind11 version that supports Python 3.4.4 which is needed for
-	# static linking in the MXE cross build
+if(MINGW OR FORCE_PYBIND11_29)
+	# Use pybind11 2.9.2 with the emum_docstring patch for the MXE build of if forced.
+	# Version 2.9.2 is the last pybind11 version that supports Python 3.4.4 which
+	# is needed for static linking in the MXE cross build
 	set(PYBIND11_SUBDIRECTORY external/pybind11_2.9.2)
 else()
 	set(PYBIND11_SUBDIRECTORY external/pybind11_3.0.0)

@@ -132,24 +132,27 @@ jobs:
     strategy:
       matrix:
         target:
-          # - target: "i386"
-          #   container: "x86_64-i386"
-          #   cc: "gcc -m32"
-          #   cxx: "g++ -m32"
-          #   ld: "ld -melf_i386"
-          #   ldflags: "-m32"
+          - target: "i386"
+            container: "x86_64-i386"
+            cc: "gcc -m32"
+            cxx: "g++ -m32"
+            ld: "ld -melf_i386"
+            ldflags: "-m32"
+            force_pybind11_29: true
           - target: "x86_64"
             container: "x86_64"
             cc: "gcc"
             cxx: "g++"
             ld: "ld"
             ldflags: ""
+            force_pybind11_29: false
 
     env:
       CC: ${{ matrix.target.cc }}
       CXX: ${{ matrix.target.cxx }}
       LD:  ${{ matrix.target.ld }}
       LDFLAGS: ${{ matrix.target.ldflags }}
+      FORCE_PYBIND11_29: ${{ matrix.target.force_pybind11_29 }}
 
     steps:
       - name: Update dependencies
