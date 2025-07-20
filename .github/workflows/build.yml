@@ -138,6 +138,7 @@ jobs:
             cxx: "g++ -m32"
             ld: "ld -melf_i386"
             ldflags: "-m32"
+            qmake: "/usr/lib/i386-linux-gnu/qt5/bin/qmake"
             force_pybind11_29: true
           - target: "x86_64"
             container: "x86_64"
@@ -145,6 +146,7 @@ jobs:
             cxx: "g++"
             ld: "ld"
             ldflags: ""
+            qmake: "/usr/lib/x86_64-linux-gnu/qt5/bin/qmake"
             force_pybind11_29: false
 
     env:
@@ -153,6 +155,7 @@ jobs:
       LD:  ${{ matrix.target.ld }}
       LDFLAGS: ${{ matrix.target.ldflags }}
       FORCE_PYBIND11_29: ${{ matrix.target.force_pybind11_29 }}
+      QMAKE: ${{ matrix.target.qmake }}
 
     steps:
       - name: Update dependencies
