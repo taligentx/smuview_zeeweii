@@ -312,7 +312,7 @@ jobs:
       - name: Build smuview
         run: |
           source sigrok-util/cross-compile/github-actions/sigrok-macos-init-toolchain.sh
-          export LD_LIBRARY_PATH="$LD_LIBRARY_PATH":$(brew --prefix "$HB_QWTVER")/lib
+          export LD_LIBRARY_PATH="$LD_LIBRARY_PATH":$(brew --prefix "$HB_QWTVER")
           ls -RLl $(brew --prefix "$HB_QWTVER")
           mkdir -p smuview/build
           cd smuview/build
