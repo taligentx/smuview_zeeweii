@@ -278,8 +278,8 @@ jobs:
     env:
       CC: ${{ matrix.compiler.cc }}
       CXX: ${{ matrix.compiler.cxx }}
-      # We use Homebrew Qt 5.15.x (current)
-      HB_QTVER: "qt@5"
+      # We use Homebrew Qt6
+      HB_QTVER: "qt"
       # We use Homebrew Python 3.x (current)
       HB_PYVER: "python@3"
 
@@ -288,7 +288,7 @@ jobs:
         run: |
           brew install autoconf automake autoconf-archive pkg-config \
             libtool libzip libusb libftdi hidapi nettle check doxygen swig \
-            glib glibmm@2.66 cmake "$HB_PYVER" boost "$HB_QTVER" qwt-qt5
+            glib glibmm@2.66 cmake "$HB_PYVER" boost "$HB_QTVER" qwt
 
       - name: Checkout sigrok-utils
         uses: actions/checkout@v3
