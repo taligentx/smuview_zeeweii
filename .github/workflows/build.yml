@@ -231,8 +231,6 @@ jobs:
           source sigrok-util/cross-compile/github-actions/sigrok-mxe-init-toolchain.sh
           mkdir -p smuview/build
           cd smuview/build
-          export LD_LIBRARY_PATH="$LD_LIBRARY_PATH":$(brew --prefix "$HB_QWTVER")/lib
-          ls -Rl $(brew --prefix "$HB_QWTVER")
           $CMAKE \
             -DCMAKE_INSTALL_PREFIX:PATH=$INSTALL_DIR \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
@@ -314,6 +312,8 @@ jobs:
       - name: Build smuview
         run: |
           source sigrok-util/cross-compile/github-actions/sigrok-macos-init-toolchain.sh
+          export LD_LIBRARY_PATH="$LD_LIBRARY_PATH":$(brew --prefix "$HB_QWTVER")/lib
+          ls -Rl $(brew --prefix "$HB_QWTVER")
           mkdir -p smuview/build
           cd smuview/build
           PKG_CONFIG_PATH=$P cmake \
