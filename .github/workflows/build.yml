@@ -231,6 +231,7 @@ jobs:
           source sigrok-util/cross-compile/github-actions/sigrok-mxe-init-toolchain.sh
           mkdir -p smuview/build
           cd smuview/build
+          export LD_LIBRARY_PATH="$LD_LIBRARY_PATH":$(brew --prefix "$HB_QWTVER")/lib
           $CMAKE \
             -DCMAKE_INSTALL_PREFIX:PATH=$INSTALL_DIR \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
@@ -278,8 +279,9 @@ jobs:
     env:
       CC: ${{ matrix.compiler.cc }}
       CXX: ${{ matrix.compiler.cxx }}
-      # We use Homebrew Qt6
+      # We use Homebrew Qt6 and Qwt
       HB_QTVER: "qt"
+      HB_QWTVER: "qwt"
       # We use Homebrew Python 3.x (current)
       HB_PYVER: "python@3"
 
@@ -288,7 +290,7 @@ jobs:
         run: |
           brew install autoconf automake autoconf-archive pkg-config \
             libtool libzip libusb libftdi hidapi nettle check doxygen swig \
-            glib glibmm@2.66 cmake "$HB_PYVER" boost "$HB_QTVER" qwt
+            glib glibmm@2.66 cmake "$HB_PYVER" boost "$HB_QTVER" "$HB_QWTVER"
 
       - name: Checkout sigrok-utils
         uses: actions/checkout@v3
