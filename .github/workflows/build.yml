@@ -232,6 +232,7 @@ jobs:
           mkdir -p smuview/build
           cd smuview/build
           export LD_LIBRARY_PATH="$LD_LIBRARY_PATH":$(brew --prefix "$HB_QWTVER")/lib
+          ls -Rl $(brew --prefix "$HB_QWTVER")
           $CMAKE \
             -DCMAKE_INSTALL_PREFIX:PATH=$INSTALL_DIR \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
