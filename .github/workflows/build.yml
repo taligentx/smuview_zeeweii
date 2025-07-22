@@ -318,6 +318,7 @@ jobs:
           cd smuview/build
           PKG_CONFIG_PATH=$P cmake \
             -DCMAKE_INSTALL_PREFIX:PATH=$INSTALL_DIR \
+            -DCMAKE_PREFIX_PATH=$(brew --prefix "$HB_QWTVER") \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
             -DDISABLE_WERROR=FALSE \
             -DENABLE_TESTS=TRUE \
