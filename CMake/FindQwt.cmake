@@ -26,7 +26,7 @@ set(QWT_LIBRARY_NAMES qwt qwt6 qwt-qt5 qwt-qt6 qwt6-qt5 qwt6-qt6)
 find_path(QWT_INCLUDE_DIR NAMES qwt.h
     NO_DEFAULT_PATH
     PATHS ${CMAKE_PREFIX_PATH}
-    PATH_SUFFIXES include ${QWT_PATH_SUFFIXES}
+    PATH_SUFFIXES include lib/qwt.framework/Headers ${QWT_PATH_SUFFIXES}
 )
 find_library(QWT_LIBRARY NAMES ${QWT_LIBRARY_NAMES}
     NO_DEFAULT_PATH
