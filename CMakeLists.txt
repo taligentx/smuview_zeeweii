@@ -221,15 +221,10 @@ endif()
 message(STATUS "${SV_TITLE} version: ${SV_VERSION_STRING}")
 
 # Library versions
-<<<<<<< HEAD
-set(SV_GLIBMM_VERSION ${PKGDEPS_glibmm-2.4_VERSION})
+set(SV_GLIBMM_VERSION ${PKGDEPS_glibmm-2.68_VERSION})
 get_directory_property(pybind11_VERSION DIRECTORY ${PYBIND11_SUBDIRECTORY} DEFINITION pybind11_VERSION)
 get_directory_property(pybind11_VERSION_TYPE DIRECTORY ${PYBIND11_SUBDIRECTORY} DEFINITION pybind11_VERSION_TYPE)
 set(SV_PYBIND11_VERSION "${pybind11_VERSION} ${pybind11_VERSION_TYPE}")
-=======
-set(SV_GLIBMM_VERSION ${PKGDEPS_glibmm-2.68_VERSION})
-set(SV_PYBIND11_VERSION ${PYBIND11_VERSION_MAJOR}.${PYBIND11_VERSION_MINOR}.${PYBIND11_VERSION_PATCH})
->>>>>>> glibmm-268
 if(MINGW)
 	# MXE workaround: Use PkgConfig to find Python
 	set(SV_PYTHON_VERSION ${PYTHON3_VERSION})
@@ -424,11 +419,7 @@ endif()
 add_definitions(-DQT_NO_KEYWORDS)
 add_definitions(-D__STDC_LIMIT_MACROS)
 add_definitions(-Wall -Wextra -Woverloaded-virtual -Wdeprecated-declarations) # -Weffc++ -Wconversion -Wsign-conversion)
-<<<<<<< HEAD
 add_definitions(${REQUIRED_STD_CXX_FLAGS})
-=======
-add_definitions(-std=c++17)
->>>>>>> glibmm-268
 add_definitions(-DBOOST_MATH_DISABLE_FLOAT128=1)
 
 if(NOT DISABLE_WERROR)
