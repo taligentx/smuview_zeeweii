@@ -82,13 +82,13 @@ public:
 	{
 		struct make_shared_enabler : public Configurable {
 			explicit make_shared_enabler(Arg&&...arg) :
-				Configurable(forward<Arg>(arg)...)
+				Configurable(std::forward<Arg>(arg)...)
 			{
 			}
 		};
 
 		shared_ptr<Configurable> configurable =
-			make_shared<make_shared_enabler>(forward<Arg>(arg)...);
+			make_shared<make_shared_enabler>(std::forward<Arg>(arg)...);
 		configurable->init();
 
 		return configurable;

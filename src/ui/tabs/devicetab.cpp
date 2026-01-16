@@ -109,7 +109,7 @@ void DeviceTab::setup_toolbar()
 	action_save_as_->setIcon(
 		QIcon::fromTheme("document-save",
 		QIcon(":/icons/document-save.png")));
-	action_save_as_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_S));
+	action_save_as_->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_S));
 	connect(action_save_as_, &QAction::triggered,
 		this, &DeviceTab::on_action_save_as_triggered);
 

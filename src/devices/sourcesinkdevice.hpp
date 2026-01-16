@@ -58,12 +58,12 @@ public:
 	{
 		struct make_shared_enabler : public SourceSinkDevice {
 			explicit make_shared_enabler(Arg&&...arg) :
-				SourceSinkDevice(forward<Arg>(arg)...)
+				SourceSinkDevice(std::forward<Arg>(arg)...)
 			{
 			}
 		};
 
-		return make_shared<make_shared_enabler>(forward<Arg>(arg)...);
+		return make_shared<make_shared_enabler>(std::forward<Arg>(arg)...);
 	}
 
 protected:

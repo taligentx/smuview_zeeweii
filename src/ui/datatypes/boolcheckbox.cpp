@@ -75,7 +75,7 @@ void BoolCheckBox::connect_signals()
 void BoolCheckBox::connect_widget_2_prop_signals()
 {
 	if (auto_commit_ && property_ != nullptr && property_->is_setable()) {
-		connect(this, &BoolCheckBox::stateChanged,
+		connect(this, &BoolCheckBox::checkStateChanged,
 			this, &BoolCheckBox::value_changed);
 	}
 }
@@ -83,7 +83,7 @@ void BoolCheckBox::connect_widget_2_prop_signals()
 void BoolCheckBox::disconnect_widget_2_prop_signals()
 {
 	if (auto_commit_ && property_ != nullptr && property_->is_setable()) {
-		disconnect(this, &BoolCheckBox::stateChanged,
+		disconnect(this, &BoolCheckBox::checkStateChanged,
 			this, &BoolCheckBox::value_changed);
 	}
 }

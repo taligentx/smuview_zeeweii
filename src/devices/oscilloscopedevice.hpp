@@ -51,12 +51,12 @@ public:
 	{
 		struct make_shared_enabler : public OscilloscopeDevice {
 			explicit make_shared_enabler(Arg&&...arg) :
-				OscilloscopeDevice(forward<Arg>(arg)...)
+				OscilloscopeDevice(std::forward<Arg>(arg)...)
 			{
 			}
 		};
 
-		return make_shared<make_shared_enabler>(forward<Arg>(arg)...);
+		return make_shared<make_shared_enabler>(std::forward<Arg>(arg)...);
 	}
 
 protected:

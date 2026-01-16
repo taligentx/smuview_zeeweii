@@ -181,7 +181,7 @@ void SequenceOutputView::setup_ui()
 	repeat_layout->addSpacing(8);
 	repeat_infinite_box_ = new QCheckBox(tr("infinite"));
 	repeat_infinite_box_->setChecked(true);
-	connect(repeat_infinite_box_, &QCheckBox::stateChanged,
+	connect(repeat_infinite_box_, &QCheckBox::checkStateChanged,
 		this, &SequenceOutputView::on_repeat_infinite_changed);
 	repeat_layout->addWidget(repeat_infinite_box_);
 	repeat_layout->addSpacing(8);
