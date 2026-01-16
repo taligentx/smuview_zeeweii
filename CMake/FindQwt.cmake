@@ -19,7 +19,7 @@
 
 include(FindPackageHandleStandardArgs)
 
-set(QWT_PATH_SUFFIXES qwt qwt6 qwt-qt5 qwt-qt6 qwt6-qt5 qwt6-qt5 qt5/qwt qt6/qwt qt5/qwt6 qt6/qwt6)
+set(QWT_PATH_SUFFIXES qwt qwt6 qwt-qt5 qwt-qt6 qwt6-qt5 qwt6-qt5 qt5/qwt qt6/qwt qt5/qwt6 qt6/qwt6 lib/qwt.framework/Headers)
 set(QWT_LIBRARY_NAMES qwt qwt6 qwt-qt5 qwt-qt6 qwt6-qt5 qwt6-qt6)
 
 # Try to find Qwt in the user specivied CMAKE_PREFIX_PATH path
