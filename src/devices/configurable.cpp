@@ -54,6 +54,11 @@ using std::set;
 using std::string;
 using std::vector;
 
+QDebug operator << (QDebug dbg, Glib::VariantBase const &v)
+{
+	return dbg << v.print().c_str();
+}
+
 namespace sv {
 namespace devices {
 

@@ -84,7 +84,7 @@ message(STATUS "FORCE_PYBIND11_29: ${FORCE_PYBIND11_29}")
 #-------------------------------------------------------------------------------
 
 list(APPEND PKGDEPS glib-2.0>=2.28.0)
-list(APPEND PKGDEPS glibmm-2.4>=2.28.0)
+list(APPEND PKGDEPS glibmm-2.68>=2.68.0)
 
 set(LIBSR_CXX_BINDING "libsigrokcxx>=0.5.2")
 list(APPEND PKGDEPS "${LIBSR_CXX_BINDING}")
@@ -143,7 +143,7 @@ endif()
 # CMP0167: CMake >= 3.30 has deprecated FindBoot(), but libboost >= 1.70 supplies a CMake config file
 find_package(Boost 1.70 COMPONENTS ${BOOSTCOMPS} CONFIG REQUIRED)
 
-# Find the platform's thread library (needed for C++11 threads).
+# Find the platform's thread library (needed for C++17 threads).
 # This will set ${CMAKE_THREAD_LIBS_INIT} to the correct, OS-specific value.
 find_package(Threads REQUIRED)
 
@@ -221,10 +221,15 @@ endif()
 message(STATUS "${SV_TITLE} version: ${SV_VERSION_STRING}")
 
 # Library versions
+<<<<<<< HEAD
 set(SV_GLIBMM_VERSION ${PKGDEPS_glibmm-2.4_VERSION})
 get_directory_property(pybind11_VERSION DIRECTORY ${PYBIND11_SUBDIRECTORY} DEFINITION pybind11_VERSION)
 get_directory_property(pybind11_VERSION_TYPE DIRECTORY ${PYBIND11_SUBDIRECTORY} DEFINITION pybind11_VERSION_TYPE)
 set(SV_PYBIND11_VERSION "${pybind11_VERSION} ${pybind11_VERSION_TYPE}")
+=======
+set(SV_GLIBMM_VERSION ${PKGDEPS_glibmm-2.68_VERSION})
+set(SV_PYBIND11_VERSION ${PYBIND11_VERSION_MAJOR}.${PYBIND11_VERSION_MINOR}.${PYBIND11_VERSION_PATCH})
+>>>>>>> glibmm-268
 if(MINGW)
 	# MXE workaround: Use PkgConfig to find Python
 	set(SV_PYTHON_VERSION ${PYTHON3_VERSION})
@@ -419,7 +424,11 @@ endif()
 add_definitions(-DQT_NO_KEYWORDS)
 add_definitions(-D__STDC_LIMIT_MACROS)
 add_definitions(-Wall -Wextra -Woverloaded-virtual -Wdeprecated-declarations) # -Weffc++ -Wconversion -Wsign-conversion)
+<<<<<<< HEAD
 add_definitions(${REQUIRED_STD_CXX_FLAGS})
+=======
+add_definitions(-std=c++17)
+>>>>>>> glibmm-268
 add_definitions(-DBOOST_MATH_DISABLE_FLOAT128=1)
 
 if(NOT DISABLE_WERROR)
