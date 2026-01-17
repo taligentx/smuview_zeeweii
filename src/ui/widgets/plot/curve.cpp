@@ -60,6 +60,8 @@ Curve::Curve(BaseCurveData *curve_data, int x_axis_id, int y_axis_id,
 	plot_direct_painter_(new QwtPlotDirectPainter()),
 	painted_points_(0)
 {
+	plot_direct_painter_->setAttribute(QwtPlotDirectPainter::CopyBackingStore, true);
+
 	id_ = curve_data->id_prefix() + ":" +
 		util::format_uuid(QUuid::createUuid());
 
