@@ -23,10 +23,10 @@ set(QWT_PATH_SUFFIXES qwt qwt6 qwt-qt5 qwt-qt6 qwt6-qt5 qwt6-qt5 qt5/qwt qt6/qwt
 set(QWT_LIBRARY_NAMES qwt qwt6 qwt-qt5 qwt-qt6 qwt6-qt5 qwt6-qt6)
 
 # Try to find Qwt in the user specivied CMAKE_PREFIX_PATH path
-find_path(QWT_INCLUDE_DIR NAMES qwt.h
+find_path(QWT_INCLUDE_DIR NAMES qwt.h qwt_global.h
     NO_DEFAULT_PATH
     PATHS ${CMAKE_PREFIX_PATH}
-    PATH_SUFFIXES include lib/qwt.framework/Headers ${QWT_PATH_SUFFIXES}
+    PATH_SUFFIXES include ${QWT_PATH_SUFFIXES}
 )
 find_library(QWT_LIBRARY NAMES ${QWT_LIBRARY_NAMES}
     NO_DEFAULT_PATH
@@ -34,9 +34,19 @@ find_library(QWT_LIBRARY NAMES ${QWT_LIBRARY_NAMES}
     PATH_SUFFIXES lib
 )
 
+if(NOT QWT_INCLUDE_DIR OR NOT QWT_LIBRARY)
+  find_path(QWT_INCLUDE_DIR NAMES qwt.h qwt_global.h
+      PATHS /usr/local/opt/qwt/include/qwt /usr/local/opt/qwt
+      PATH_SUFFIXES ${QWT_PATH_SUFFIXES}
+      NO_DEFAULT_PATH)
+  find_library(QWT_LIBRARY NAMES ${QWT_LIBRARY_NAMES}
+      PATHS /usr/local/opt/qwt/lib
+      NO_DEFAULT_PATH)
+endif()
+
 # Now search in the default paths
 if(NOT QWT_INCLUDE_DIR OR NOT QWT_LIBRARY)
-  find_path(QWT_INCLUDE_DIR NAMES qwt.h
+  find_path(QWT_INCLUDE_DIR NAMES qwt.h qwt_global.h
     PATH_SUFFIXES ${QWT_PATH_SUFFIXES})
   find_library(QWT_LIBRARY
     NAMES ${QWT_LIBRARY_NAMES})
@@ -44,7 +54,11 @@ endif()
 
 # Get version
 if(QWT_INCLUDE_DIR)
-  file(READ "${QWT_INCLUDE_DIR}/qwt_global.h" qwt_header)
+  if(EXISTS "${QWT_INCLUDE_DIR}/qwt_version_info.h")
+    file(READ "${QWT_INCLUDE_DIR}/qwt_version_info.h" qwt_header)
+  else()
+    file(READ "${QWT_INCLUDE_DIR}/qwt_global.h" qwt_header)
+  endif()
   string(REGEX REPLACE ".*QWT_VERSION_STR +\"([^\"]+)\".*" "\\1" QWT_VERSION_STR "${qwt_header}")
 endif()
 
