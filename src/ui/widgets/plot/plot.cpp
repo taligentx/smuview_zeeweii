@@ -30,6 +30,7 @@
 #include <QDebug>
 #include <QEvent>
 #include <QHBoxLayout>
+#include <QList>
 #include <QPen>
 #include <QPoint>
 #include <QPointF>
@@ -100,7 +101,7 @@ public:
 		 * QwtPlot::repaint() in replot() will also work
 		 */
 		setPaintAttribute(QwtPlotCanvas::ImmediatePaint, true);
-		setBorderRadius(10);
+		setBorderRadius(0);
 
 		if (QwtPainter::isX11GraphicsSystem()) {
 			/*
@@ -357,7 +358,7 @@ int Plot::init_x_axis(BaseCurveData *curve_data, int x_axis_id)
 			"Plot::init_x_axis(): Curve type not implemented!");
 	}
 
-	this->init_axis(x_axis_id, min, max, curve_data->x_title(), true);
+	this->init_axis(x_axis_id, min, max, curve_data->x_title(), false);
 
 	if (curve_data->type() == CurveType::TimeCurve &&
 			!curve_data->is_relative_time())
@@ -791,9 +792,9 @@ bool Plot::update_x_interval(Curve *curve)
 		if (!axis_lock_map_[QwtPlot::xBottom][AxisBoundary::UpperBoundary] &&
 				boundaries.right() > max) {
 			if (boundaries.right()+add_time_ > max)
-				max = boundaries.right() + add_time_;
+				max = std::ceil(boundaries.right() + add_time_);
 			else
-				max = x_interval.maxValue() + add_time_;
+				max = std::ceil(x_interval.maxValue() + add_time_);
 			interval_changed = true;
 		}
 
@@ -807,13 +808,31 @@ bool Plot::update_x_interval(Curve *curve)
 			return false;
 
 		if (boundaries.right() > max+time_span_)
-			min = boundaries.right();
+			min = std::floor(boundaries.right() / add_time_) * add_time_;
 		else
 			min += add_time_;
 		max = min + time_span_;
 
+		/*
+		 * NOTE:
+		 * To avoid, that the grid is jumping, we disable the autocalculation
+		 * of the ticks and shift them manually instead.
+		 */
+		QwtScaleDiv scaleDiv = axisScaleEngine(QwtPlot::xBottom)->divideScale(
+			0.0, time_span_,
+			axisMaxMajor(QwtPlot::xBottom),
+			axisMaxMinor(QwtPlot::xBottom),
+			axisStepSize(QwtPlot::xBottom));
+
+		QList<double> ticks[QwtScaleDiv::NTickTypes];
+		for (int i = 0; i < QwtScaleDiv::NTickTypes; i++) {
+			ticks[i] = scaleDiv.ticks(i);
+			for (double &tick : ticks[i])
+				tick += min;
+		}
+
 		interval_changed = true;
-		setAxisScale(QwtPlot::xBottom, min, max);
+		setAxisScaleDiv(QwtPlot::xBottom, QwtScaleDiv(min, max, ticks));
 	}
 	// Handle the Oscilloscope plot mode
 	else if (update_mode_ == PlotUpdateMode::Oscilloscope) {
@@ -822,7 +841,7 @@ bool Plot::update_x_interval(Curve *curve)
 			return false;
 
 		if (boundaries.right() > max+time_span_)
-			min = boundaries.right();
+			min = std::floor(boundaries.right() / time_span_) * time_span_;
 		else
 			min += time_span_;
 		max = min + time_span_;
@@ -832,18 +851,21 @@ bool Plot::update_x_interval(Curve *curve)
 		 * To avoid, that the grid is jumping, we disable the autocalculation
 		 * of the ticks and shift them manually instead.
 		 */
-		QwtScaleDiv scaleDiv = axisScaleDiv(QwtPlot::xBottom);
-		scaleDiv.setInterval(min, max);
+		QwtScaleDiv scaleDiv = axisScaleEngine(QwtPlot::xBottom)->divideScale(
+			0.0, time_span_,
+			axisMaxMajor(QwtPlot::xBottom),
+			axisMaxMinor(QwtPlot::xBottom),
+			axisStepSize(QwtPlot::xBottom));
+
+		QList<double> ticks[QwtScaleDiv::NTickTypes];
 		for (int i = 0; i < QwtScaleDiv::NTickTypes; i++) {
-			QList<double> ticks = scaleDiv.ticks(i);
-			for (int j = 0; j < ticks.size(); j++) {
-				ticks[j] += x_interval.width();
-			}
-			scaleDiv.setTicks(i, ticks);
+			ticks[i] = scaleDiv.ticks(i);
+			for (double &tick : ticks[i])
+				tick += min;
 		}
 
 		interval_changed = true;
-		setAxisScaleDiv(QwtPlot::xBottom, scaleDiv);
+		setAxisScaleDiv(QwtPlot::xBottom, QwtScaleDiv(min, max, ticks));
 		curve->set_painted_points(0);
 	}
 
