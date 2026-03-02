@@ -84,7 +84,7 @@ message(STATUS "FORCE_PYBIND11_29: ${FORCE_PYBIND11_29}")
 #-------------------------------------------------------------------------------
 
 list(APPEND PKGDEPS glib-2.0>=2.28.0)
-list(APPEND PKGDEPS glibmm-2.68>=2.68.0)
+list(APPEND PKGDEPS glibmm-2.4>=2.28.0)
 
 set(LIBSR_CXX_BINDING "libsigrokcxx>=0.5.2")
 list(APPEND PKGDEPS "${LIBSR_CXX_BINDING}")
